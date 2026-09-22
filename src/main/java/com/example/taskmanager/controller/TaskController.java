@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/tasks")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "https://taskmanager-ui.annu-cheruvally.workers.dev")
 public class TaskController {
 
     private final TaskService taskService;
