@@ -1,18 +1,19 @@
 package com.example.taskmanager.service;
 
-import com.example.taskmanager.entity.Task;
-
-import java.util.List;
+import com.example.taskmanager.dto.TaskRequest;
+import com.example.taskmanager.dto.TaskResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface TaskService {
 
-    Task createTask(Task task);
+    TaskResponse createTask(TaskRequest request);
 
-    List<Task> getAllTasks();
+    Page<TaskResponse> getAllTasks(Pageable pageable);
 
-    Task getTaskById(Long id);
+    TaskResponse getTaskById(Long id);
 
-    Task updateTask(Long id, Task task);
+    TaskResponse updateTask(Long id, TaskRequest request);
 
     void deleteTask(Long id);
 }

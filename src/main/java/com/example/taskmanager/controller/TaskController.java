@@ -1,14 +1,14 @@
 package com.example.taskmanager.controller;
 
-import com.example.taskmanager.entity.Task;
+import com.example.taskmanager.dto.TaskRequest;
+import com.example.taskmanager.dto.TaskResponse;
 import com.example.taskmanager.service.TaskService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.CrossOrigin;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/tasks")
@@ -22,33 +22,40 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseEntity<Task> createTask(
-            @Valid @RequestBody Task task) {
+    public ResponseEntity<TaskResponse> createTask(
+            @Valid @RequestBody TaskRequest request) {
 
-        Task createdTask = taskService.createTask(task);
-
-        return new ResponseEntity<>(createdTask, HttpStatus.CREATED);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(taskService.createTask(request));
     }
 
     @GetMapping
-    public ResponseEntity<List<Task>> getAllTasks() {
+    public ResponseEntity<Page<TaskResponse>> getAllTasks(
+            Pageable pageable) {
 
-        return ResponseEntity.ok(taskService.getAllTasks());
+        return ResponseEntity.ok(
+                taskService.getAllTasks(pageable)
+        );
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Task> getTaskById(
+    public ResponseEntity<TaskResponse> getTaskById(
             @PathVariable Long id) {
 
-        return ResponseEntity.ok(taskService.getTaskById(id));
+        return ResponseEntity.ok(
+                taskService.getTaskById(id)
+        );
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Task> updateTask(
+    public ResponseEntity<TaskResponse> updateTask(
             @PathVariable Long id,
-            @Valid @RequestBody Task task) {
+            @Valid @RequestBody TaskRequest request) {
 
-        return ResponseEntity.ok(taskService.updateTask(id, task));
+        return ResponseEntity.ok(
+                taskService.updateTask(id, request)
+        );
     }
 
     @DeleteMapping("/{id}")
